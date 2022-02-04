@@ -37,7 +37,7 @@ async def die(event):
             description="@{me} [UserID] [Message]",
             text=f"@{me} [UserID] [Message]",
             buttons=[
-                [Button.switch_inline("🔒 Gửi tin nhắn bảo mật 🔒", query="wspr ")]
+                [Button.switch_inline("🔒 Gửi tin nhắn bảo mật 🔒", query="send ")]
                 ]
             )
     await event.answer([dn])
