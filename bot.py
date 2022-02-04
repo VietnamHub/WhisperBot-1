@@ -34,8 +34,8 @@ async def die(event):
     me = (await bot.get_me()).username
     dn = event.builder.article(
             title="Tin nhắn bảo mật 🔓",
-            description="@{me} [UserID] [Message]",
-            text=f"@{me} [UserID] [Message]",
+            description="@{me} send [UserID] [Message]",
+            text=f"@{me} send [UserID] [Message]",
             buttons=[
                 [Button.switch_inline("🔒 Gửi tin nhắn bảo mật 🔒", query="send ")]
                 ]
@@ -51,7 +51,7 @@ async def inline(event):
     except IndexError:
         await event.answer(
                 [], 
-                switch_pm=f"@{me} [UserID] [Message]",
+                switch_pm=f"@{me} send [UserID] [Message]",
                 switch_pm_param="start"
                 )
     except ValueError:
