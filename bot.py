@@ -27,7 +27,7 @@ async def stsrt(event):
             )
 
 
-@bot.on(events.InlineQuery())
+@bot.on(events.InlineQuery(send))
 async def die(event):
     if len(event.text) != 0:
         return
@@ -79,7 +79,7 @@ Có một tin nhắn ẩn đã được gửi cho [{ui.user.first_name}](tg://us
             description="Đó là một thông điệp bí mật! Sssh!",
             text=text,
             buttons=[
-                [Button.inline("🔐 Hiện tin nhắn 🔐", data="wspr")]
+                [Button.inline("🔐 Hiện tin nhắn 🔐", data="send")]
                 ]
             )
     await event.answer(
@@ -89,7 +89,7 @@ Có một tin nhắn ẩn đã được gửi cho [{ui.user.first_name}](tg://us
             )
 
 
-@bot.on(events.CallbackQuery(data="wspr"))
+@bot.on(events.CallbackQuery(data="send"))
 async def ws(event):
     user = int(db["user_id"])
     lol = [int(db["self"])]
