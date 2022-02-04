@@ -33,11 +33,11 @@ async def die(event):
         return
     me = (await bot.get_me()).username
     dn = event.builder.article(
-            title="It's a whisper bot!",
-            description="It's a whisper Bot!\n(c) Reeshuxd",
-            text=f"**It's a whisper bot**\n`@{me} wspr UserID|Message`\n**(c) Reeshuxd**",
+            title="Tin nhắn bảo mật 🔓",
+            description="Viết @username hoặc id vào cuối tin nhắn của bạn",
+            text=f"**Viết @username hoặc id vào cuối tin nhắn của bạn**",
             buttons=[
-                [Button.switch_inline(" Go Inline ", query="wspr ")]
+                [Button.switch_inline("🔒 Gửi tin nhắn bảo mật 🔒", query="wspr ")]
                 ]
             )
     await event.answer([dn])
@@ -57,7 +57,7 @@ async def inline(event):
     except ValueError:
         await event.answer(
                 [],
-                switch_pm=f"Give a message too!",
+                switch_pm=f"Cung cấp một tin nhắn!",
                 switch_pm_param="start"
                 )
     try:
@@ -65,28 +65,28 @@ async def inline(event):
     except BaseException:
         await event.answer(
                 [],
-                switch_pm="Invalid User ID/Username",
+                switch_pm="ID người dùng / Tên người dùng không hợp lệ",
                 switch_pm_param="start"
                 )
         return
     db.update({"user_id": ui.user.id, "msg": msg, "self": event.sender.id})
     text = f"""
-A Whisper Has Been Sent
-To [{ui.user.first_name}](tg://user?id={ui.user.id})!
-Click The Below Button To See The Message!
-**Note:** __Only {ui.user.first_name} can open this!__
+Một lời thì thầm đã được gửi
+đến [{ui.user.first_name}](tg://user?id={ui.user.id})!
+Bấm vào nút bên dưới để xem tin nhắn!
+**Note:** __Chỉ có {ui.user.first_name} mới có thể mở cái này!__
     """
     dn = event.builder.article(
-            title="Its a secret message! Sssh",
-            description="It's a secret message! Sssh!",
+            title="Đó là một thông điệp bí mật! Sssh",
+            description="Đó là một thông điệp bí mật! Sssh!",
             text=text,
             buttons=[
-                [Button.inline(" Show Message! ", data="wspr")]
+                [Button.inline("🔐 Hiện tin nhắn 🔐", data="wspr")]
                 ]
             )
     await event.answer(
             [dn],
-            switch_pm="It's a secret message! Sssh",
+            switch_pm="Đó là một thông điệp bí mật! Sssh",
             switch_pm_param="start"
             )
 
@@ -97,12 +97,12 @@ async def ws(event):
     lol = [int(db["self"])]
     lol.append(user)
     if event.sender.id not in lol:
-        await event.answer("🔐 This message is not for you!", alert=True)
+        await event.answer("🔐 Tin nhắn này không dành cho bạn!", alert=True)
         return
     msg = db["msg"]
     if msg == []:
         await event.anwswer(
-                "Oops!\nIt's looks like message got deleted from my server!", alert=True)
+                "Oops!\nICó vẻ như tin nhắn đã bị xóa khỏi máy chủ của tôi!", alert=True)
         return
     await event.answer(msg, alert=True)
 
