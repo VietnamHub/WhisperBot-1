@@ -20,7 +20,7 @@ db = {}
 @bot.on(events.NewMessage(pattern="^[!?/]start$"))
 async def stsrt(event):
     await event.reply(
-            "**Heya, I am a Whisper Bot!**",
+            "**Tôi là bot gửi tin nhắn bảo mật**",
             buttons=[
                 [Button.switch_inline("Go Inline", query="")]
                 ]
@@ -34,24 +34,24 @@ async def die(event):
     me = (await bot.get_me()).username
     dn = event.builder.article(
             title="Tin nhắn bảo mật 🔓",
-            description="Viết @username hoặc id vào cuối tin nhắn của bạn",
-            text=f"**Viết @username hoặc id vào cuối tin nhắn của bạn**",
+            description="@{me} [UserID] [Message]",
+            text=f"@{me} [UserID] [Message]",
             buttons=[
                 [Button.switch_inline("🔒 Gửi tin nhắn bảo mật 🔒", query="wspr ")]
                 ]
             )
     await event.answer([dn])
     
-@bot.on(events.InlineQuery(pattern="wspr"))
+@bot.on(events.InlineQuery())
 async def inline(event):
     me = (await bot.get_me()).username
     try:
         inp = event.text.split(None, 1)[1]
-        user, msg = inp.split("|")
+        user, msg = inp.split(" ")
     except IndexError:
         await event.answer(
                 [], 
-                switch_pm=f"@{me} [UserID]|[Message]",
+                switch_pm=f"@{me} [UserID] [Message]",
                 switch_pm_param="start"
                 )
     except ValueError:
@@ -71,9 +71,7 @@ async def inline(event):
         return
     db.update({"user_id": ui.user.id, "msg": msg, "self": event.sender.id})
     text = f"""
-Một lời thì thầm đã được gửi
-đến [{ui.user.first_name}](tg://user?id={ui.user.id})!
-Bấm vào nút bên dưới để xem tin nhắn!
+Có một tin nhắn ẩn đã được gửi cho [{ui.user.first_name}](tg://user?id={ui.user.id})! Bấm vào nút bên dưới để xem tin nhắn!
 **Note:** __Chỉ có {ui.user.first_name} mới có thể mở cái này!__
     """
     dn = event.builder.article(
@@ -102,7 +100,7 @@ async def ws(event):
     msg = db["msg"]
     if msg == []:
         await event.anwswer(
-                "Oops!\nICó vẻ như tin nhắn đã bị xóa khỏi máy chủ của tôi!", alert=True)
+                "Oops!\nCó vẻ như tin nhắn đã bị xóa khỏi máy chủ của tôi!", alert=True)
         return
     await event.answer(msg, alert=True)
 
