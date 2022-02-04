@@ -27,7 +27,7 @@ async def stsrt(event):
             )
 
 
-@bot.on(events.InlineQuery(send))
+@bot.on(events.InlineQuery(wspr))
 async def die(event):
     if len(event.text) != 0:
         return
@@ -37,7 +37,7 @@ async def die(event):
             description="@{me} send [UserID] [Message]",
             text=f"@{me} send [UserID] [Message]",
             buttons=[
-                [Button.switch_inline("🔒 Gửi tin nhắn bảo mật 🔒", query="send ")]
+                [Button.switch_inline("🔒 Gửi tin nhắn bảo mật 🔒", query="wspr ")]
                 ]
             )
     await event.answer([dn])
@@ -61,7 +61,7 @@ async def inline(event):
                 switch_pm_param="start"
                 )
     try:
-        ui = await bot(us(user))
+        ui = await bot(us(wspr))
     except BaseException:
         await event.answer(
                 [],
@@ -79,7 +79,7 @@ Có một tin nhắn ẩn đã được gửi cho [{ui.user.first_name}](tg://us
             description="Đó là một thông điệp bí mật! Sssh!",
             text=text,
             buttons=[
-                [Button.inline("🔐 Hiện tin nhắn 🔐", data="send")]
+                [Button.inline("🔐 Hiện tin nhắn 🔐", data="wspr")]
                 ]
             )
     await event.answer(
@@ -89,7 +89,7 @@ Có một tin nhắn ẩn đã được gửi cho [{ui.user.first_name}](tg://us
             )
 
 
-@bot.on(events.CallbackQuery(data="send"))
+@bot.on(events.CallbackQuery(data="wspr"))
 async def ws(event):
     user = int(db["user_id"])
     lol = [int(db["self"])]
